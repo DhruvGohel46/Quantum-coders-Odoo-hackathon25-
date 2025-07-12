@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReWear - Community Clothing Exchange</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .btn-secondary:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 4rem 0;
+            text-align: center;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
+        }
+
+        .hero .btn {
+            font-size: 1.1rem;
+            padding: 1rem 2rem;
+        }
+
+        /* Search Bar */
+        .search-container {
+            background: white;
+            border-radius: 50px;
+            padding: 0.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            display: flex;
+            max-width: 600px;
+            margin: 0 auto 3rem;
+        }
+
+        .search-input {
+            flex: 1;
+            border: none;
+            padding: 1rem 1.5rem;
+            font-size: 1rem;
+            border-radius: 50px;
+            outline: none;
+        }
+
+        .search-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 1rem 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .search-btn:hover {
+            background: #5a6fd8;
+        }
+
+        /* Featured Items Carousel */
+        .featured-section {
+            background: white;
+            padding: 4rem 0;
+            margin-top: 2rem;
+        }
+
+        .featured-section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #333;
+        }
+
+        .carousel-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .carousel {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .carousel-item {
+            min-width: 100%;
+            height: 400px;
+            background: linear-gradient(135deg, #ffeaa7, #fab1a0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .carousel-item:nth-child(2) {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+        }
+
+        .carousel-item:nth-child(3) {
+            background: linear-gradient(135deg, #fd79a8, #e84393);
+        }
+
+        .carousel-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.8);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .carousel-nav:hover {
+            background: rgba(255, 255, 255, 1);
+        }
+
+        .carousel-nav.prev {
+            left: 20px;
+        }
+
+        .carousel-nav.next {
+            right: 20px;
+        }
+
+        /* Categories Section */
+        .categories-section {
+            padding: 4rem 0;
+            background: #f8f9fa;
+        }
+
+        .categories-section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #333;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .category-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .category-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .category-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .category-card p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Product Listings */
+        .products-section {
+            padding: 4rem 0;
+            background: white;
+        }
+
+        .products-section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #333;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-image {
+            height: 200px;
+            background: linear-gradient(135deg, #ddd, #bbb);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-info h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .product-info p {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .product-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .points {
+            background: #667eea;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .condition {
+            color: #28a745;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+
+        /* Footer */
+        footer {
+            background: #333;
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: #667eea;
+        }
+
+        .footer-section p, .footer-section a {
+            color: #ccc;
+            text-decoration: none;
+            line-height: 1.8;
+        }
+
+        .footer-section a:hover {
+            color: #667eea;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #555;
+            padding-top: 2rem;
+            margin-top: 2rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .categories-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <a href="#" class="logo">ReWear</a>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#browse">Browse</a></li>
+                <li><a href="#how-it-works">How It Works</a></li>
+                <li><a href="#about">About</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <a href="#" class="btn btn-secondary">Login</a>
+                <a href="#" class="btn btn-primary">Sign Up</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero" id="home">
+            <div class="container">
+                <h1>Sustainable Fashion Exchange</h1>
+                <p>Give your clothes a second life. Discover unique pieces from your community while reducing textile waste.</p>
+                
+                <div class="hero-buttons">
+                    <a href="#" class="btn btn-primary">Start Swapping</a>
+                    <a href="#" class="btn btn-primary">Browse Items</a>
+                    <a href="#" class="btn btn-primary">List an Item</a>
+                </div>
+
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="Search for clothing, accessories, or brands...">
+                    <button class="search-btn">🔍</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="featured-section">
+            <div class="container">
+                <h2>Featured Items</h2>
+                <div class="carousel-container">
+                    <div class="carousel" id="carousel">
+                        <div class="carousel-item">
+                            <div>
+                                <h3>Vintage Denim Collection</h3>
+                                <p>High-quality vintage jeans and jackets</p>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div>
+                                <h3>Designer Accessories</h3>
+                                <p>Bags, shoes, and jewelry from top brands</p>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div>
+                                <h3>Formal Wear Exchange</h3>
+                                <p>Suits, dresses, and professional attire</p>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="carousel-nav prev" onclick="prevSlide()">❮</button>
+                    <button class="carousel-nav next" onclick="nextSlide()">❯</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="categories-section">
+            <div class="container">
+                <h2>Browse Categories</h2>
+                <div class="categories-grid">
+                    <div class="category-card">
+                        <div class="category-icon">👗</div>
+                        <h3>Dresses</h3>
+                        <p>Casual, formal, and party dresses</p>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-icon">👔</div>
+                        <h3>Formal Wear</h3>
+                        <p>Suits, blazers, and professional attire</p>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-icon">👟</div>
+                        <h3>Footwear</h3>
+                        <p>Sneakers, boots, and formal shoes</p>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-icon">👜</div>
+                        <h3>Accessories</h3>
+                        <p>Bags, jewelry, and fashion accessories</p>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-icon">🧥</div>
+                        <h3>Outerwear</h3>
+                        <p>Jackets, coats, and seasonal wear</p>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-icon">👕</div>
+                        <h3>Casual Wear</h3>
+                        <p>T-shirts, jeans, and everyday clothes</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="products-section">
+            <div class="container">
+                <h2>Recent Listings</h2>
+                <div class="products-grid">
+                    <div class="product-card">
+                        <div class="product-image">Designer Handbag</div>
+                        <div class="product-info">
+                            <h3>Michael Kors Crossbody</h3>
+                            <p>Black leather crossbody bag, barely used. Perfect for daily use.</p>
+                            <div class="product-meta">
+                                <span class="points">150 Points</span>
+                                <span class="condition">Excellent</span>
+                            </div>
+                            <a href="#" class="btn btn-primary" style="width: 100%;">View Details</a>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image">Vintage Jacket</div>
+                        <div class="product-info">
+                            <h3>Vintage Denim Jacket</h3>
+                            <p>Classic 90s denim jacket, size M. Great for layering.</p>
+                            <div class="product-meta">
+                                <span class="points">120 Points</span>
+                                <span class="condition">Good</span>
+                            </div>
+                            <a href="#" class="btn btn-primary" style="width: 100%;">View Details</a>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image">Formal Dress</div>
+                        <div class="product-info">
+                            <h3>Black Evening Dress</h3>
+                            <p>Elegant black dress, size 8. Perfect for formal events.</p>
+                            <div class="product-meta">
+                                <span class="points">200 Points</span>
+                                <span class="condition">Like New</span>
+                            </div>
+                            <a href="#" class="btn btn-primary" style="width: 100%;">View Details</a>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image">Sneakers</div>
+                        <div class="product-info">
+                            <h3>Nike Air Max</h3>
+                            <p>White Nike Air Max sneakers, size 9. Worn a few times.</p>
+                            <div class="product-meta">
+                                <span class="points">180 Points</span>
+                                <span class="condition">Very Good</span>
+                            </div>
+                            <a href="#" class="btn btn-primary" style="width: 100%;">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>ReWear</h3>
+                    <p>Connecting fashion-conscious individuals to create a sustainable clothing exchange community.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <p><a href="#">How It Works</a></p>
+                    <p><a href="#">Browse Items</a></p>
+                    <p><a href="#">List an Item</a></p>
+                    <p><a href="#">Community Guidelines</a></p>
+                </div>
+                <div class="footer-section">
+                    <h3>Support</h3>
+                    <p><a href="#">Help Center</a></p>
+                    <p><a href="#">Contact Us</a></p>
+                    <p><a href="#">Safety Tips</a></p>
+                    <p><a href="#">Report an Issue</a></p>
+                </div>
+                <div class="footer-section">
+                    <h3>Connect</h3>
+                    <p><a href="#">Facebook</a></p>
+                    <p><a href="#">Instagram</a></p>
+                    <p><a href="#">Twitter</a></p>
+                    <p><a href="#">Newsletter</a></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 ReWear. All rights reserved. | Privacy Policy | Terms of Service</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.carousel-item');
+        const totalSlides = slides.length;
+
+        function showSlide(n) {
+            const carousel = document.getElementById('carousel');
+            if (n >= totalSlides) currentSlide = 0;
+            if (n < 0) currentSlide = totalSlides - 1;
+            carousel.style.transform = `translateX(-${currentSlide * 100}%)`;
+        }
+
+        function nextSlide() {
+            currentSlide++;
+            showSlide(currentSlide);
+        }
+
+        function prevSlide() {
+            currentSlide--;
+            showSlide(currentSlide);
+        }
+
+        // Auto-advance carousel
+        setInterval(nextSlide, 5000);
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Add animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all cards and sections
+        document.querySelectorAll('.category-card, .product-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>
