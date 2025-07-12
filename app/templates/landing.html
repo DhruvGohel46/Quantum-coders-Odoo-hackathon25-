@@ -433,17 +433,17 @@
 <body>
     <header>
         <nav class="container">
-            <a href="#" class="logo">ReWear</a>
+            <a href="{{ url_for('main.index') }}" class="logo">ReWear</a>
             <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#browse">Browse</a></li>
-                <li><a href="#how-it-works">How It Works</a></li>
-                <li><a href="#about">About</a></li>
+                <li><a href="{{ url_for('main.index') }}">Home</a></li>
+                <li><a href="{{ url_for('main.browse') }}">Browse</a></li>
+                <li><a href="{{ url_for('main.dashboard') }}">Dashboard</a></li>
+                <li><a href="{{ url_for('items.add') }}">Add Item</a></li>
             </ul>
-            <div class="auth-buttons">
-                <a href="#" class="btn btn-secondary">Login</a>
-                <a href="#" class="btn btn-primary">Sign Up</a>
-            </div>
+                          <div class="auth-buttons">
+                  <a href="{{ url_for('auth.login') }}" class="btn btn-secondary">Login</a>
+                  <a href="{{ url_for('auth.register') }}" class="btn btn-primary">Sign Up</a>
+              </div>
         </nav>
     </header>
 
@@ -454,15 +454,15 @@
                 <p>Give your clothes a second life. Discover unique pieces from your community while reducing textile waste.</p>
                 
                 <div class="hero-buttons">
-                    <a href="#" class="btn btn-primary">Start Swapping</a>
-                    <a href="#" class="btn btn-primary">Browse Items</a>
-                    <a href="#" class="btn btn-primary">List an Item</a>
+                    <a href="{{ url_for('main.browse') }}" class="btn btn-primary">Start Swapping</a>
+                    <a href="{{ url_for('main.browse') }}" class="btn btn-primary">Browse Items</a>
+                    <a href="{{ url_for('items.add') }}" class="btn btn-primary">List an Item</a>
                 </div>
 
-                <div class="search-container">
-                    <input type="text" class="search-input" placeholder="Search for clothing, accessories, or brands...">
-                    <button class="search-btn">🔍</button>
-                </div>
+                <form action="{{ url_for('main.browse') }}" method="GET" class="search-container">
+                    <input type="text" name="search" class="search-input" placeholder="Search for clothing, accessories, or brands...">
+                    <button type="submit" class="search-btn">🔍</button>
+                </form>
             </div>
         </section>
 
@@ -500,32 +500,32 @@
             <div class="container">
                 <h2>Browse Categories</h2>
                 <div class="categories-grid">
-                    <div class="category-card">
+                    <div class="category-card" onclick="window.location.href='{{ url_for('main.browse', category='dresses') }}'">
                         <div class="category-icon">👗</div>
                         <h3>Dresses</h3>
                         <p>Casual, formal, and party dresses</p>
                     </div>
-                    <div class="category-card">
+                    <div class="category-card" onclick="window.location.href='{{ url_for('main.browse', category='formal') }}'">
                         <div class="category-icon">👔</div>
                         <h3>Formal Wear</h3>
                         <p>Suits, blazers, and professional attire</p>
                     </div>
-                    <div class="category-card">
+                    <div class="category-card" onclick="window.location.href='{{ url_for('main.browse', category='footwear') }}'">
                         <div class="category-icon">👟</div>
                         <h3>Footwear</h3>
                         <p>Sneakers, boots, and formal shoes</p>
                     </div>
-                    <div class="category-card">
+                    <div class="category-card" onclick="window.location.href='{{ url_for('main.browse', category='accessories') }}'">
                         <div class="category-icon">👜</div>
                         <h3>Accessories</h3>
                         <p>Bags, jewelry, and fashion accessories</p>
                     </div>
-                    <div class="category-card">
+                    <div class="category-card" onclick="window.location.href='{{ url_for('main.browse', category='outerwear') }}'">
                         <div class="category-icon">🧥</div>
                         <h3>Outerwear</h3>
                         <p>Jackets, coats, and seasonal wear</p>
                     </div>
-                    <div class="category-card">
+                    <div class="category-card" onclick="window.location.href='{{ url_for('main.browse', category='casual') }}'">
                         <div class="category-icon">👕</div>
                         <h3>Casual Wear</h3>
                         <p>T-shirts, jeans, and everyday clothes</p>
@@ -547,7 +547,7 @@
                                 <span class="points">150 Points</span>
                                 <span class="condition">Excellent</span>
                             </div>
-                            <a href="#" class="btn btn-primary" style="width: 100%;">View Details</a>
+                            <a href="{{ url_for('items.detail', item_id=1) }}" class="btn btn-primary" style="width: 100%;">View Details</a>
                         </div>
                     </div>
                     <div class="product-card">
@@ -559,7 +559,7 @@
                                 <span class="points">120 Points</span>
                                 <span class="condition">Good</span>
                             </div>
-                            <a href="#" class="btn btn-primary" style="width: 100%;">View Details</a>
+                            <a href="{{ url_for('items.detail', item_id=2) }}" class="btn btn-primary" style="width: 100%;">View Details</a>
                         </div>
                     </div>
                     <div class="product-card">
@@ -571,7 +571,7 @@
                                 <span class="points">200 Points</span>
                                 <span class="condition">Like New</span>
                             </div>
-                            <a href="#" class="btn btn-primary" style="width: 100%;">View Details</a>
+                            <a href="{{ url_for('items.detail', item_id=3) }}" class="btn btn-primary" style="width: 100%;">View Details</a>
                         </div>
                     </div>
                     <div class="product-card">
@@ -583,7 +583,7 @@
                                 <span class="points">180 Points</span>
                                 <span class="condition">Very Good</span>
                             </div>
-                            <a href="#" class="btn btn-primary" style="width: 100%;">View Details</a>
+                            <a href="{{ url_for('items.detail', item_id=4) }}" class="btn btn-primary" style="width: 100%;">View Details</a>
                         </div>
                     </div>
                 </div>
@@ -593,32 +593,32 @@
 
     <footer>
         <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>ReWear</h3>
-                    <p>Connecting fashion-conscious individuals to create a sustainable clothing exchange community.</p>
-                </div>
-                <div class="footer-section">
-                    <h3>Quick Links</h3>
-                    <p><a href="#">How It Works</a></p>
-                    <p><a href="#">Browse Items</a></p>
-                    <p><a href="#">List an Item</a></p>
-                    <p><a href="#">Community Guidelines</a></p>
-                </div>
-                <div class="footer-section">
-                    <h3>Support</h3>
-                    <p><a href="#">Help Center</a></p>
-                    <p><a href="#">Contact Us</a></p>
-                    <p><a href="#">Safety Tips</a></p>
-                    <p><a href="#">Report an Issue</a></p>
-                </div>
-                <div class="footer-section">
-                    <h3>Connect</h3>
-                    <p><a href="#">Facebook</a></p>
-                    <p><a href="#">Instagram</a></p>
-                    <p><a href="#">Twitter</a></p>
-                    <p><a href="#">Newsletter</a></p>
-                </div>
+                            <div class="footer-content">
+                    <div class="footer-section">
+                        <h3>ReWear</h3>
+                        <p>Connecting fashion-conscious individuals to create a sustainable clothing exchange community.</p>
+                    </div>
+                    <div class="footer-section">
+                        <h3>Quick Links</h3>
+                        <p><a href="{{ url_for('main.dashboard') }}">Dashboard</a></p>
+                        <p><a href="{{ url_for('main.browse') }}">Browse Items</a></p>
+                        <p><a href="{{ url_for('items.add') }}">List an Item</a></p>
+                        <p><a href="{{ url_for('auth.login') }}">Login</a></p>
+                    </div>
+                                    <div class="footer-section">
+                        <h3>Support</h3>
+                        <p><a href="{{ url_for('auth.register') }}">Register</a></p>
+                        <p><a href="{{ url_for('auth.login') }}">Login</a></p>
+                        <p><a href="{{ url_for('main.dashboard') }}">Dashboard</a></p>
+                        <p><a href="{{ url_for('items.add') }}">Add Item</a></p>
+                    </div>
+                                    <div class="footer-section">
+                        <h3>Connect</h3>
+                        <p><a href="{{ url_for('main.browse') }}">Browse Items</a></p>
+                        <p><a href="{{ url_for('items.add') }}">Add Item</a></p>
+                        <p><a href="{{ url_for('main.dashboard') }}">Dashboard</a></p>
+                        <p><a href="{{ url_for('auth.register') }}">Join Us</a></p>
+                    </div>
             </div>
             <div class="footer-bottom">
                 <p>&copy; 2025 ReWear. All rights reserved. | Privacy Policy | Terms of Service</p>
@@ -655,11 +655,14 @@
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth'
-                    });
+                const href = this.getAttribute('href');
+                if (href && href !== '#') {
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
                 }
             });
         });
