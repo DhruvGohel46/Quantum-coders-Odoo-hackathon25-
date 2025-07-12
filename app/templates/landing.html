@@ -500,36 +500,36 @@
             <div class="container">
                 <h2>Browse Categories</h2>
                 <div class="categories-grid">
-                    <div class="category-card" onclick="window.location.href='{{ url_for('main.browse', category='dresses') }}'">
+                    <a href="{{ url_for('main.browse', category='dresses') }}" class="category-card">
                         <div class="category-icon">👗</div>
                         <h3>Dresses</h3>
                         <p>Casual, formal, and party dresses</p>
-                    </div>
-                    <div class="category-card" onclick="window.location.href='{{ url_for('main.browse', category='formal') }}'">
+                    </a>
+                    <a href="{{ url_for('main.browse', category='formal') }}" class="category-card">
                         <div class="category-icon">👔</div>
                         <h3>Formal Wear</h3>
                         <p>Suits, blazers, and professional attire</p>
-                    </div>
-                    <div class="category-card" onclick="window.location.href='{{ url_for('main.browse', category='footwear') }}'">
+                    </a>
+                    <a href="{{ url_for('main.browse', category='footwear') }}" class="category-card">
                         <div class="category-icon">👟</div>
                         <h3>Footwear</h3>
                         <p>Sneakers, boots, and formal shoes</p>
-                    </div>
-                    <div class="category-card" onclick="window.location.href='{{ url_for('main.browse', category='accessories') }}'">
+                    </a>
+                    <a href="{{ url_for('main.browse', category='accessories') }}" class="category-card">
                         <div class="category-icon">👜</div>
                         <h3>Accessories</h3>
                         <p>Bags, jewelry, and fashion accessories</p>
-                    </div>
-                    <div class="category-card" onclick="window.location.href='{{ url_for('main.browse', category='outerwear') }}'">
+                    </a>
+                    <a href="{{ url_for('main.browse', category='outerwear') }}" class="category-card">
                         <div class="category-icon">🧥</div>
                         <h3>Outerwear</h3>
                         <p>Jackets, coats, and seasonal wear</p>
-                    </div>
-                    <div class="category-card" onclick="window.location.href='{{ url_for('main.browse', category='casual') }}'">
+                    </a>
+                    <a href="{{ url_for('main.browse', category='casual') }}" class="category-card">
                         <div class="category-icon">👕</div>
                         <h3>Casual Wear</h3>
                         <p>T-shirts, jeans, and everyday clothes</p>
-                    </div>
+                    </a>
                 </div>
             </div>
         </section>
