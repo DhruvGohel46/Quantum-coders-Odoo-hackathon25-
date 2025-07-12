@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReWear - Admin Panel</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .admin-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .nav-tabs .nav-link {
+            color: #667eea;
+            border: none;
+            font-weight: 500;
+        }
+        .nav-tabs .nav-link.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .user-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #f8f9fa;
+        }
+        .item-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+        .status-badge {
+            font-size: 0.8rem;
+            padding: 0.25rem 0.75rem;
+        }
+        .action-btn {
+            padding: 0.25rem 0.75rem;
+            margin: 0.125rem;
+            font-size: 0.875rem;
+        }
+        .stats-card {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .pending-item {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+        }
+        .approved-item {
+            background-color: #d1edff;
+            border-left: 4px solid #0d6efd;
+        }
+        .rejected-item {
+            background-color: #f8d7da;
+            border-left: 4px solid #dc3545;
+        }
+        .search-bar {
+            border-radius: 50px;
+            padding: 0.75rem 1.5rem;
+            border: 2px solid #e9ecef;
+        }
+        .search-bar:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <!-- Header -->
+    <div class="admin-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <h2 class="mb-0"><i class="fas fa-tshirt me-2"></i>ReWear Admin Panel</h2>
+                </div>
+                <div class="col-md-6 text-end">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span class="me-3">Welcome, Admin</span>
+                        <a href="{{ url_for('main.index') }}" class="btn btn-outline-light btn-sm me-2">Home</a>
+                        <a href="{{ url_for('main.item_details') }}" class="btn btn-outline-light btn-sm me-2">Browse</a>
+                        <a href="{{ url_for('main.about') }}" class="btn btn-outline-light btn-sm me-2">About</a>
+                        <a href="{{ url_for('auth.logout') }}" class="btn btn-outline-light btn-sm">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="container mt-4">
+        <ul class="nav nav-tabs mb-4" id="adminTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="users-tab" data-bs-toggle="tab" data-bs-target="#users" type="button" role="tab">
+                    <i class="fas fa-users me-2"></i>Manage Users
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="items-tab" data-bs-toggle="tab" data-bs-target="#items" type="button" role="tab">
+                    <i class="fas fa-tshirt me-2"></i>Manage Items
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="swaps-tab" data-bs-toggle="tab" data-bs-target="#swaps" type="button" role="tab">
+                    <i class="fas fa-exchange-alt me-2"></i>Manage Swaps
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="reports-tab" data-bs-toggle="tab" data-bs-target="#reports" type="button" role="tab">
+                    <i class="fas fa-chart-bar me-2"></i>Reports
+                </button>
+            </li>
+        </ul>
+
+        <!-- Tab Content -->
+        <div class="tab-content" id="adminTabsContent">
+            <!-- Users Tab -->
+            <div class="tab-pane fade show active" id="users" role="tabpanel">
+                <div class="row mb-4">
+                    <div class="col-md-8">
+                        <input type="text" class="form-control search-bar" placeholder="Search users by name, email, or location...">
+                    </div>
+                    <div class="col-md-4">
+                        <select class="form-select">
+                            <option>All Users</option>
+                            <option>Active Users</option>
+                            <option>Banned Users</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">User Management</h5>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>User</th>
+                                        <th>Email</th>
+                                        <th>Location</th>
+                                        <th>Items Listed</th>
+                                        <th>Points</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <img src="https://images.unsplash.com/photo-1494790108755-2616b9ad2886?w=150&h=150&fit=crop&crop=face" alt="User" class="user-avatar me-3">
+                                                <div>
+                                                    <h6 class="mb-0">Sarah Johnson</h6>
+                                                    <small class="text-muted">Joined: Jan 2025</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>sarah.j@email.com</td>
+                                        <td>New York, NY</td>
+                                        <td>12</td>
+                                        <td>245</td>
+                                        <td><span class="badge bg-success status-badge">Active</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary action-btn">View</button>
+                                            <button class="btn btn-sm btn-outline-warning action-btn">Warn</button>
+                                            <button class="btn btn-sm btn-outline-danger action-btn">Ban</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face" alt="User" class="user-avatar me-3">
+                                                <div>
+                                                    <h6 class="mb-0">Mike Chen</h6>
+                                                    <small class="text-muted">Joined: Dec 2024</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>mike.chen@email.com</td>
+                                        <td>San Francisco, CA</td>
+                                        <td>8</td>
+                                        <td>180</td>
+                                        <td><span class="badge bg-success status-badge">Active</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary action-btn">View</button>
+                                            <button class="btn btn-sm btn-outline-warning action-btn">Warn</button>
+                                            <button class="btn btn-sm btn-outline-danger action-btn">Ban</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face" alt="User" class="user-avatar me-3">
+                                                <div>
+                                                    <h6 class="mb-0">Emily Rodriguez</h6>
+                                                    <small class="text-muted">Joined: Nov 2024</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>emily.r@email.com</td>
+                                        <td>Austin, TX</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td><span class="badge bg-danger status-badge">Banned</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary action-btn">View</button>
+                                            <button class="btn btn-sm btn-outline-success action-btn">Unban</button>
+                                            <button class="btn btn-sm btn-outline-secondary action-btn">Delete</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Items Tab -->
+            <div class="tab-pane fade" id="items" role="tabpanel">
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <input type="text" class="form-control search-bar" placeholder="Search items by title, category, or tags...">
+                    </div>
+                    <div class="col-md-3">
+                        <select class="form-select">
+                            <option>All Items</option>
+                            <option>Pending Approval</option>
+                            <option>Approved</option>
+                            <option>Rejected</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <select class="form-select">
+                            <option>All Categories</option>
+                            <option>Tops</option>
+                            <option>Bottoms</option>
+                            <option>Dresses</option>
+                            <option>Shoes</option>
+                            <option>Accessories</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Item Management</h5>
+                    </div>
+                    <div class="card-body p-0">
+                        <!-- Pending Items -->
+                        <div class="p-3 pending-item border-bottom">
+                            <div class="row align-items-center">
+                                <div class="col-md-2">
+                                    <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=200&h=200&fit=crop" alt="Item" class="item-image">
+                                </div>
+                                <div class="col-md-6">
+                                    <h6 class="mb-1">Vintage Denim Jacket</h6>
+                                    <p class="mb-1 text-muted">Category: Jackets | Size: M | Condition: Good</p>
+                                    <small class="text-muted">Listed by: Sarah Johnson | 2 hours ago</small>
+                                    <div class="mt-2">
+                                        <span class="badge bg-warning me-2">Pending</span>
+                                        <span class="badge bg-secondary me-2">Vintage</span>
+                                        <span class="badge bg-secondary">Denim</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-end">
+                                    <button class="btn btn-sm btn-success action-btn">Approve</button>
+                                    <button class="btn btn-sm btn-danger action-btn">Reject</button>
+                                    <button class="btn btn-sm btn-outline-primary action-btn">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Approved Items -->
+                        <div class="p-3 approved-item border-bottom">
+                            <div class="row align-items-center">
+                                <div class="col-md-2">
+                                    <img src="https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=200&h=200&fit=crop" alt="Item" class="item-image">
+                                </div>
+                                <div class="col-md-6">
+                                    <h6 class="mb-1">Floral Summer Dress</h6>
+                                    <p class="mb-1 text-muted">Category: Dresses | Size: S | Condition: Excellent</p>
+                                    <small class="text-muted">Listed by: Mike Chen | 1 day ago</small>
+                                    <div class="mt-2">
+                                        <span class="badge bg-success me-2">Approved</span>
+                                        <span class="badge bg-secondary me-2">Floral</span>
+                                        <span class="badge bg-secondary">Summer</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-end">
+                                    <button class="btn btn-sm btn-outline-warning action-btn">Flag</button>
+                                    <button class="btn btn-sm btn-outline-danger action-btn">Remove</button>
+                                    <button class="btn btn-sm btn-outline-primary action-btn">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Rejected Items -->
+                        <div class="p-3 rejected-item">
+                            <div class="row align-items-center">
+                                <div class="col-md-2">
+                                    <img src="https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?w=200&h=200&fit=crop" alt="Item" class="item-image">
+                                </div>
+                                <div class="col-md-6">
+                                    <h6 class="mb-1">Worn Out Sneakers</h6>
+                                    <p class="mb-1 text-muted">Category: Shoes | Size: 10 | Condition: Poor</p>
+                                    <small class="text-muted">Listed by: Emily Rodriguez | 3 days ago</small>
+                                    <div class="mt-2">
+                                        <span class="badge bg-danger me-2">Rejected</span>
+                                        <span class="badge bg-secondary">Shoes</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-end">
+                                    <button class="btn btn-sm btn-outline-success action-btn">Reconsider</button>
+                                    <button class="btn btn-sm btn-outline-secondary action-btn">Delete</button>
+                                    <button class="btn btn-sm btn-outline-primary action-btn">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Swaps Tab -->
+            <div class="tab-pane fade" id="swaps" role="tabpanel">
+                <div class="row mb-4">
+                    <div class="col-md-8">
+                        <input type="text" class="form-control search-bar" placeholder="Search swaps by user or item...">
+                    </div>
+                    <div class="col-md-4">
+                        <select class="form-select">
+                            <option>All Swaps</option>
+                            <option>Pending</option>
+                            <option>Accepted</option>
+                            <option>Completed</option>
+                            <option>Cancelled</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Swap Management</h5>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Swap ID</th>
+                                        <th>Requester</th>
+                                        <th>Item Owner</th>
+                                        <th>Items</th>
+                                        <th>Status</th>
+                                        <th>Date</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>#SWP001</td>
+                                        <td>Sarah Johnson</td>
+                                        <td>Mike Chen</td>
+                                        <td>
+                                            <small>Vintage Jacket ↔ Summer Dress</small>
+                                        </td>
+                                        <td><span class="badge bg-warning status-badge">Pending</span></td>
+                                        <td>Jan 10, 2025</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary action-btn">View</button>
+                                            <button class="btn btn-sm btn-outline-danger action-btn">Cancel</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>#SWP002</td>
+                                        <td>Mike Chen</td>
+                                        <td>Sarah Johnson</td>
+                                        <td>
+                                            <small>Blue Jeans ↔ White Sneakers</small>
+                                        </td>
+                                        <td><span class="badge bg-success status-badge">Completed</span></td>
+                                        <td>Jan 08, 2025</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary action-btn">View</button>
+                                            <button class="btn btn-sm btn-outline-info action-btn">Feedback</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>#SWP003</td>
+                                        <td>Emily Rodriguez</td>
+                                        <td>Sarah Johnson</td>
+                                        <td>
+                                            <small>Red Dress ↔ Black Boots</small>
+                                        </td>
+                                        <td><span class="badge bg-danger status-badge">Cancelled</span></td>
+                                        <td>Jan 05, 2025</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary action-btn">View</button>
+                                            <button class="btn btn-sm btn-outline-secondary action-btn">Archive</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reports Tab -->
+            <div class="tab-pane fade" id="reports" role="tabpanel">
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <div class="stats-card text-center">
+                            <h3>1,247</h3>
+                            <p class="mb-0">Total Users</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stats-card text-center">
+                            <h3>3,891</h3>
+                            <p class="mb-0">Items Listed</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stats-card text-center">
+                            <h3>542</h3>
+                            <p class="mb-0">Completed Swaps</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stats-card text-center">
+                            <h3>89</h3>
+                            <p class="mb-0">Pending Reviews</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0">Recent Activity</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <span>New user registrations</span>
+                                    <span class="badge bg-success">+12 today</span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <span>Items awaiting approval</span>
+                                    <span class="badge bg-warning">23</span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <span>Completed swaps</span>
+                                    <span class="badge bg-info">+8 today</span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span>User reports</span>
+                                    <span class="badge bg-danger">2</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0">Export Reports</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="d-grid gap-2">
+                                    <button class="btn btn-outline-primary">
+                                        <i class="fas fa-download me-2"></i>User Activity Report
+                                    </button>
+                                    <button class="btn btn-outline-primary">
+                                        <i class="fas fa-download me-2"></i>Item Listings Report
+                                    </button>
+                                    <button class="btn btn-outline-primary">
+                                        <i class="fas fa-download me-2"></i>Swap Statistics Report
+                                    </button>
+                                    <button class="btn btn-outline-primary">
+                                        <i class="fas fa-download me-2"></i>Feedback & Reviews Report
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Tab switching functionality
+        const tabs = document.querySelectorAll('#adminTabs button');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                tabs.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Search functionality
+        const searchInputs = document.querySelectorAll('.search-bar');
+        searchInputs.forEach(input => {
+            input.addEventListener('input', function() {
+                const query = this.value.toLowerCase();
+                // Add search logic here
+                console.log('Searching for:', query);
+            });
+        });
+
+        // Action button handlers
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('action-btn')) {
+                const action = e.target.textContent.trim();
+                console.log('Action clicked:', action);
+                
+                // Add confirmation dialogs for destructive actions
+                if (action === 'Ban' || action === 'Reject' || action === 'Delete' || action === 'Remove') {
+                    if (confirm(`Are you sure you want to ${action.toLowerCase()} this item?`)) {
+                        // Perform action
+                        console.log('Action confirmed:', action);
+                    }
+                }
+            }
+        });
+
+        // Stats update simulation
+        function updateStats() {
+            const statCards = document.querySelectorAll('.stats-card h3');
+            statCards.forEach(card => {
+                const currentValue = parseInt(card.textContent.replace(',', ''));
+                const newValue = currentValue + Math.floor(Math.random() * 10);
+                card.textContent = newValue.toLocaleString();
+            });
+        }
+
+        // Update stats every 30 seconds (for demo purposes)
+        setInterval(updateStats, 30000);
+    </script>
+</body>
+</html>

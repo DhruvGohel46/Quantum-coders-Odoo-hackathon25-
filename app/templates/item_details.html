@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browse Items - ReWear</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .main-container {
+            background: white;
+            min-height: 100vh;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        .header {
+            border-bottom: 2px solid #e9ecef;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .logo:hover {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .btn-secondary:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .search-container {
+            margin: 2rem 0;
+        }
+
+        .search-input {
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            padding: 12px 16px;
+            font-size: 1rem;
+        }
+
+        .search-input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.25rem rgba(102, 126, 234, 0.25);
+        }
+
+        .search-btn {
+            background: #667eea;
+            border: 2px solid #667eea;
+            color: white;
+            border-radius: 8px;
+            padding: 12px 20px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-btn:hover {
+            background: #5a6fd8;
+            border-color: #5a6fd8;
+        }
+
+        .filters-container {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .filter-btn {
+            background: white;
+            border: 2px solid #dee2e6;
+            color: #333;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            margin: 0.25rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .filter-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .filter-btn.active {
+            background: #667eea;
+            border-color: #667eea;
+            color: white;
+        }
+
+        .section-header {
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-align: center;
+            color: #333;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 0.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .product-card {
+            background: white;
+            border: 2px solid #dee2e6;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            height: 100%;
+        }
+
+        .product-card:hover {
+            border-color: #667eea;
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+        }
+
+        .product-image {
+            height: 200px;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            color: #6c757d;
+            font-weight: 500;
+        }
+
+        .product-info {
+            padding: 1.25rem;
+        }
+
+        .product-info h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .product-info p {
+            color: #6c757d;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .product-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .points {
+            background: #667eea;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .condition {
+            color: #28a745;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+
+        .btn-product {
+            background: #667eea;
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            width: 100%;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: background 0.3s;
+        }
+
+        .btn-product:hover {
+            background: #5a6fd8;
+        }
+
+        .no-items {
+            text-align: center;
+            padding: 3rem;
+            color: #6c757d;
+        }
+
+        .no-items i {
+            font-size: 4rem;
+            color: #dee2e6;
+            margin-bottom: 1rem;
+        }
+
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .page-link {
+            color: #667eea;
+            border: 1px solid #dee2e6;
+        }
+
+        .page-link:hover {
+            color: #5a6fd8;
+            background-color: #e9ecef;
+        }
+
+        .page-item.active .page-link {
+            background-color: #667eea;
+            border-color: #667eea;
+        }
+
+        .results-info {
+            color: #6c757d;
+            margin-bottom: 1rem;
+        }
+
+        /* Item Detail Styles */
+        .item-detail-section {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .item-detail-image {
+            height: 300px;
+            object-fit: cover;
+            border-radius: 8px;
+            width: 100%;
+        }
+
+        .item-detail-info {
+            padding: 1.5rem;
+        }
+
+        .item-detail-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .item-detail-description {
+            color: #6c757d;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .item-detail-specs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .spec-item {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .spec-label {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .spec-value {
+            color: #6c757d;
+        }
+
+        .similar-items-section {
+            margin-top: 3rem;
+        }
+
+        .similar-items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .back-to-browse {
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .section-header {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid main-container">
+        <div class="container">
+            <!-- Header -->
+            <div class="row header align-items-center">
+                <div class="col">
+                    <a href="{{ url_for('main.index') }}" class="logo">ReWear</a>
+                </div>
+                <div class="col-auto">
+                    <ul class="nav-links">
+                        <li><a href="{{ url_for('main.index') }}">Home</a></li>
+                        <li><a href="{{ url_for('main.item_details') }}">Browse Items</a></li>
+                        {% if current_user.is_authenticated %}
+                            <li><a href="{{ url_for('items.add_item') }}">Add Item</a></li>
+                        {% else %}
+                            <li><a href="{{ url_for('auth.login') }}" onclick="alert('Please login to add items!')">Add Item</a></li>
+                        {% endif %}
+                        <li><a href="{{ url_for('main.about') }}">About</a></li>
+                        {% if current_user.is_authenticated %}
+                            <li><a href="{{ url_for('main.dashboard') }}">Dashboard</a></li>
+                            <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+                        {% else %}
+                            <li><a href="{{ url_for('auth.login') }}">Login</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+                <div class="col-auto">
+                    <div class="auth-buttons">
+                        {% if current_user.is_authenticated %}
+                            <a href="{{ url_for('main.dashboard') }}" class="btn btn-primary">Dashboard</a>
+                            <a href="{{ url_for('auth.logout') }}" class="btn btn-secondary">Logout</a>
+                        {% else %}
+                            <a href="{{ url_for('auth.login') }}" class="btn btn-primary">Login</a>
+                            <a href="{{ url_for('auth.login') }}" class="btn btn-secondary">Register</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="row search-container">
+                <div class="col">
+                    <form method="GET" action="{{ url_for('main.item_details') }}">
+                        <div class="input-group">
+                            <input type="text" class="form-control search-input" name="search" placeholder="Search for clothing, accessories, or brands..." value="{{ search }}">
+                            <button class="btn search-btn" type="submit">
+                                <i class="bi bi-search"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Filters -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="filters-container">
+                        <h5 class="mb-3">Filter by Category:</h5>
+                        <a href="{{ url_for('main.item_details', search=search) }}" class="filter-btn {% if not category %}active{% endif %}">All Items</a>
+                        <a href="{{ url_for('main.item_details', category='clothing', search=search) }}" class="filter-btn {% if category == 'clothing' %}active{% endif %}">Clothing</a>
+                        <a href="{{ url_for('main.item_details', category='shoes', search=search) }}" class="filter-btn {% if category == 'shoes' %}active{% endif %}">Shoes</a>
+                        <a href="{{ url_for('main.item_details', category='accessories', search=search) }}" class="filter-btn {% if category == 'accessories' %}active{% endif %}">Accessories</a>
+                        <a href="{{ url_for('main.item_details', category='bags', search=search) }}" class="filter-btn {% if category == 'bags' %}active{% endif %}">Bags</a>
+                        <a href="{{ url_for('main.item_details', category='jewelry', search=search) }}" class="filter-btn {% if category == 'jewelry' %}active{% endif %}">Jewelry</a>
+                        <a href="{{ url_for('main.item_details', category='outerwear', search=search) }}" class="filter-btn {% if category == 'outerwear' %}active{% endif %}">Outerwear</a>
+                    </div>
+                </div>
+            </div>
+
+            {% if selected_item %}
+            <!-- Item Detail Section -->
+            <div class="item-detail-section">
+                <div class="back-to-browse">
+                    <a href="{{ url_for('main.item_details', category=category, search=search) }}" class="btn btn-secondary">
+                        <i class="bi bi-arrow-left me-2"></i>Back to Browse
+                    </a>
+                </div>
+                
+                <div class="row">
+                    <div class="col-lg-6">
+                        <img src="https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?w=400&h=400&fit=crop" 
+                             alt="{{ selected_item.title }}" class="item-detail-image">
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="item-detail-info">
+                            <h1 class="item-detail-title">{{ selected_item.title }}</h1>
+                            <p class="item-detail-description">{{ selected_item.description }}</p>
+                            
+                            <div class="item-detail-specs">
+                                <div class="spec-item">
+                                    <div class="spec-label">Category</div>
+                                    <div class="spec-value">{{ selected_item.category.title() }}</div>
+                                </div>
+                                <div class="spec-item">
+                                    <div class="spec-label">Type</div>
+                                    <div class="spec-value">{{ selected_item.type.title() }}</div>
+                                </div>
+                                <div class="spec-item">
+                                    <div class="spec-label">Size</div>
+                                    <div class="spec-value">{{ selected_item.size }}</div>
+                                </div>
+                                <div class="spec-item">
+                                    <div class="spec-label">Condition</div>
+                                    <div class="spec-value">{{ selected_item.condition.replace('_', ' ').title() }}</div>
+                                </div>
+                                <div class="spec-item">
+                                    <div class="spec-label">Points Value</div>
+                                    <div class="spec-value">{{ selected_item.points_value }} Points</div>
+                                </div>
+                                <div class="spec-item">
+                                    <div class="spec-label">Listed By</div>
+                                    <div class="spec-value">{{ selected_item.owner.username }}</div>
+                                </div>
+                            </div>
+                            
+                            <div class="row mt-4">
+                                <div class="col-md-6">
+                                    <button class="btn btn-primary w-100" onclick="requestSwap({{ selected_item.id }})">
+                                        <i class="bi bi-arrow-left-right me-2"></i>Request Swap
+                                    </button>
+                                </div>
+                                <div class="col-md-6">
+                                    <button class="btn btn-secondary w-100" onclick="redeemWithPoints({{ selected_item.id }})">
+                                        <i class="bi bi-coin me-2"></i>Redeem ({{ selected_item.points_value }} Points)
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Similar Items Section -->
+            <div class="similar-items-section">
+                <div class="section-header">Similar Items</div>
+                <div class="similar-items-grid">
+                    {% for item in similar_items %}
+                    <div class="product-card" onclick="viewItem({{ item.id }})">
+                        <div class="product-image">
+                            {% if item.image_filename %}
+                                <img src="{{ url_for('static', filename='uploads/' + item.image_filename) }}" alt="{{ item.title }}" style="width: 100%; height: 100%; object-fit: cover;">
+                            {% else %}
+                                <i class="bi bi-{{ get_category_icon(item.category) }}" style="font-size: 3rem; color: #667eea;"></i>
+                            {% endif %}
+                        </div>
+                        <div class="product-info">
+                            <h3>{{ item.title }}</h3>
+                            <p>{{ (item.description or '')[:100] }}{% if (item.description or '')|length > 100 %}...{% endif %}</p>
+                            <div class="product-meta">
+                                <span class="points">{{ item.points_value }} Points</span>
+                                <span class="condition">{{ item.condition.replace('_', ' ').title() }}</span>
+                            </div>
+                            <button class="btn btn-product">View Details</button>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Results Info -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="results-info">
+                        {% if search or category %}
+                            Showing {{ items|length }} item{% if items|length != 1 %}s{% endif %}
+                            {% if search %}for "{{ search }}"{% endif %}
+                            {% if category %}in {{ category.title() }}{% endif %}
+                        {% else %}
+                            Showing all {{ items|length }} available items
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Items Grid -->
+            <div class="row g-4">
+                {% if items %}
+                    {% for item in items %}
+                    <div class="col-xl-3 col-lg-4 col-md-6">
+                        <div class="product-card" data-item-id="{{ item.id }}" onclick="viewItem(this.dataset.itemId)">
+                            <div class="product-image">
+                                {% if item.image_filename %}
+                                    <img src="{{ url_for('static', filename='uploads/' + item.image_filename) }}" alt="{{ item.title }}" style="width: 100%; height: 100%; object-fit: cover;">
+                                {% else %}
+                                    <i class="bi bi-{{ get_category_icon(item.category) }}" style="font-size: 3rem; color: #667eea;"></i>
+                                {% endif %}
+                            </div>
+                            <div class="product-info">
+                                <h3>{{ item.title or 'Untitled Item' }}</h3>
+                                <p>{{ (item.description or '')[:100] }}{% if (item.description or '')|length > 100 %}...{% endif %}</p>
+                                <div class="product-meta">
+                                    <span class="points">{{ item.points_value or 0 }} Points</span>
+                                    <span class="condition">{{ item.condition.replace('_', ' ').title() if item.condition else 'N/A' }}</span>
+                                </div>
+                                <div class="product-meta">
+                                    <small class="text-muted">Size: {{ item.size }}</small>
+                                    <small class="text-muted">{{ item.category.title() }}</small>
+                                </div>
+                                <button class="btn btn-product">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="col-12">
+                        <div class="no-items">
+                            <i class="bi bi-search"></i>
+                            <h4>No items found</h4>
+                            <p>
+                                {% if search or category %}
+                                    No items match your search criteria.
+                                    {% if search %}Try adjusting your search terms.{% endif %}
+                                    {% if category %}Try selecting a different category.{% endif %}
+                                {% else %}
+                                    No items are currently available.
+                                {% endif %}
+                            </p>
+                            <a href="{{ url_for('main.item_details') }}" class="btn btn-primary">Browse All Items</a>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Pagination (if needed in the future) -->
+            {% if items and items|length > 12 %}
+            <div class="row">
+                <div class="col-12">
+                    <div class="pagination-container">
+                        <nav aria-label="Items pagination">
+                            <ul class="pagination">
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#" tabindex="-1">Previous</a>
+                                </li>
+                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">Next</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Add click animations to cards
+        document.querySelectorAll('.product-card').forEach(card => {
+            card.addEventListener('click', function() {
+                this.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = 'translateY(-5px)';
+                }, 100);
+            });
+        });
+
+        function viewItem(itemId) {
+            if (itemId) {
+                // Navigate to item details page with the selected item
+                const currentUrl = new URL(window.location);
+                currentUrl.searchParams.set('item', itemId);
+                window.location.href = currentUrl.toString();
+            }
+        }
+
+        function requestSwap(itemId) {
+            if (itemId) {
+                // Navigate to item details page with the selected item for swap request
+                const currentUrl = new URL(window.location);
+                currentUrl.searchParams.set('item', itemId);
+                window.location.href = currentUrl.toString();
+            }
+        }
+
+        function redeemWithPoints(itemId) {
+            if (confirm('Are you sure you want to redeem this item for points?')) {
+                alert('Item redeemed successfully! Check your dashboard for pickup details.');
+            }
+        }
+
+        // Add smooth transitions to filter buttons
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html> 

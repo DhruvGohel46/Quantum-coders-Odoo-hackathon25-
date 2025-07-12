@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReWear - Fashion Forward Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --fashion-black: #0a0a0a;
+            --fashion-white: #fefefe;
+            --fashion-gold: #d4af37;
+            --fashion-rose: #f4c2c2;
+            --fashion-sage: #87a96b;
+            --fashion-cream: #f8f6f0;
+            --fashion-grey: #2c2c2c;
+            --fashion-accent: #e6b17a;
+            --fashion-gradient: linear-gradient(135deg, #0a0a0a 0%, #2c2c2c 50%, #87a96b 100%);
+            --fashion-gold-gradient: linear-gradient(135deg, #d4af37 0%, #e6b17a 100%);
+            --magazine-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .fashion-serif {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        body {
+            background: var(--fashion-cream);
+            color: var(--fashion-black);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .fashion-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.03;
+            z-index: -1;
+            background-image: 
+                repeating-linear-gradient(45deg, transparent, transparent 10px, var(--fashion-black) 10px, var(--fashion-black) 11px),
+                repeating-linear-gradient(-45deg, transparent, transparent 10px, var(--fashion-black) 10px, var(--fashion-black) 11px);
+        }
+        
+        .hero-section {
+            background: var(--fashion-gradient);
+            color: var(--fashion-white);
+            padding: 4rem 0;
+            margin-bottom: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="0.5" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+        }
+        
+        .brand-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            font-weight: 900;
+            letter-spacing: -0.05em;
+            text-transform: uppercase;
+            position: relative;
+            z-index: 2;
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.3);
+        }
+        
+        .brand-subtitle {
+            font-size: 1.2rem;
+            font-weight: 300;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            opacity: 0.9;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .screen-indicator {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            padding: 0.75rem 1.5rem;
+            border-radius: 0;
+            font-size: 0.9rem;
+            color: white;
+            font-weight: 500;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        
+        .profile-showcase {
+            background: var(--fashion-white);
+            border-radius: 0;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            box-shadow: var(--magazine-shadow);
+            position: relative;
+            border-left: 8px solid var(--fashion-gold);
+        }
+        
+        .profile-showcase::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 200px;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, var(--fashion-cream));
+            opacity: 0.5;
+        }
+        
+        .profile-avatar {
+            width: 160px;
+            height: 160px;
+            border-radius: 0;
+            background: var(--fashion-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 4rem;
+            margin-bottom: 2rem;
+            border: 4px solid var(--fashion-gold);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            position: relative;
+            clip-path: polygon(20px 0%, 100% 0%, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0% 100%, 0% 20px);
+        }
+        
+        .profile-avatar::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: var(--fashion-gold-gradient);
+            z-index: -1;
+            clip-path: polygon(20px 0%, 100% 0%, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0% 100%, 0% 20px);
+        }
+        
+        .info-card {
+            background: var(--fashion-white);
+            border: none;
+            border-radius: 0;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            position: relative;
+            border-left: 3px solid transparent;
+        }
+        
+        .info-card:hover {
+            transform: translateX(10px);
+            border-left-color: var(--fashion-gold);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+        
+        .stats-showcase {
+            background: var(--fashion-black);
+            color: var(--fashion-white);
+            border-radius: 0;
+            padding: 4rem 3rem;
+            margin-bottom: 4rem;
+            box-shadow: var(--magazine-shadow);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stats-showcase::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: var(--fashion-gold-gradient);
+        }
+        
+        .stats-showcase::after {
+            content: 'IMPACT';
+            position: absolute;
+            top: 50%;
+            right: -50px;
+            transform: translateY(-50%) rotate(90deg);
+            font-family: 'Playfair Display', serif;
+            font-size: 6rem;
+            font-weight: 900;
+            color: rgba(255,255,255,0.03);
+            letter-spacing: 0.2em;
+        }
+        
+        .stat-item {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            padding: 1rem;
+        }
+        
+        .stat-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: var(--fashion-gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--fashion-rose);
+            font-weight: 500;
+        }
+        
+        .section-header {
+            margin-bottom: 3rem;
+            position: relative;
+        }
+        
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            color: var(--fashion-black);
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+        }
+        
+        .section-subtitle {
+            font-size: 1rem;
+            color: var(--fashion-grey);
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            font-weight: 400;
+        }
+        
+        .fashion-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+        
+        .fashion-card {
+            background: var(--fashion-white);
+            border-radius: 0;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+            cursor: pointer;
+            position: relative;
+            height: 350px;
+        }
+        
+        .fashion-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--fashion-gradient);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: 1;
+        }
+        
+        .fashion-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.2);
+        }
+        
+        .fashion-card:hover::before {
+            opacity: 0.05;
+        }
+        
+        .fashion-card.add-new {
+            border: 3px dashed var(--fashion-gold);
+            background: linear-gradient(135deg, var(--fashion-cream) 0%, var(--fashion-white) 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .fashion-card.add-new:hover {
+            border-color: var(--fashion-black);
+            background: var(--fashion-gold);
+            color: var(--fashion-black);
+        }
+        
+        .card-content {
+            padding: 2rem;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .item-visual {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: var(--fashion-cream);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            position: relative;
+            border: 3px solid var(--fashion-gold);
+        }
+        
+        .item-visual::before {
+            content: '';
+            position: absolute;
+            top: -6px;
+            left: -6px;
+            right: -6px;
+            bottom: -6px;
+            border-radius: 50%;
+            background: var(--fashion-gold-gradient);
+            z-index: -1;
+        }
+        
+        .fashion-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--fashion-black);
+            color: var(--fashion-gold);
+            font-size: 0.7rem;
+            padding: 0.5rem 1rem;
+            border-radius: 0;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            z-index: 3;
+        }
+        
+        .item-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            color: var(--fashion-black);
+            margin-bottom: 0.75rem;
+            font-size: 1.3rem;
+            text-align: center;
+        }
+        
+        .item-details {
+            color: var(--fashion-grey);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 500;
+            text-align: center;
+        }
+        
+        .eco-score-badge {
+            background: var(--fashion-gradient);
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 0;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-top: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+        
+        .impact-editorial {
+            background: var(--fashion-white);
+            border-radius: 0;
+            padding: 4rem;
+            margin-bottom: 3rem;
+            box-shadow: var(--magazine-shadow);
+            position: relative;
+            border-top: 8px solid var(--fashion-sage);
+        }
+        
+        .impact-editorial::before {
+            content: '"';
+            position: absolute;
+            top: -20px;
+            left: 30px;
+            font-family: 'Playfair Display', serif;
+            font-size: 8rem;
+            color: var(--fashion-sage);
+            opacity: 0.3;
+            line-height: 1;
+        }
+        
+        .impact-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--fashion-black);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .impact-text {
+            font-size: 1.2rem;
+            color: var(--fashion-grey);
+            text-align: center;
+            line-height: 1.8;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .fashion-highlight {
+            background: var(--fashion-gold);
+            color: var(--fashion-black);
+            padding: 0.2rem 0.5rem;
+            font-weight: 600;
+        }
+        
+        .fade-up {
+            opacity: 0;
+            transform: translateY(60px);
+            animation: fadeUp 1s ease forwards;
+        }
+        
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .stagger-1 { animation-delay: 0.2s; }
+        .stagger-2 { animation-delay: 0.4s; }
+        .stagger-3 { animation-delay: 0.6s; }
+        .stagger-4 { animation-delay: 0.8s; }
+        
+        @media (max-width: 768px) {
+            .brand-title {
+                font-size: 2.5rem;
+            }
+            
+            .profile-avatar {
+                width: 120px;
+                height: 120px;
+                font-size: 3rem;
+            }
+            
+            .stat-number {
+                font-size: 2.5rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="fashion-pattern"></div>
+    
+    <div class="hero-section">
+        <div class="container">
+            <div class="text-center">
+                <h1 class="brand-title mb-3">
+                    <i class="fas fa-recycle me-3"></i>
+                    ReWear
+                </h1>
+                <p class="brand-subtitle">Sustainable Fashion Redefined</p>
+            </div>
+            <div class="screen-indicator">
+                <i class="fas fa-desktop me-2"></i>
+                Dashboard 06
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <!-- Profile Showcase -->
+        <div class="profile-showcase fade-up">
+            <div class="row align-items-center">
+                <div class="col-md-4 text-center mb-4 mb-md-0">
+                    <div class="profile-avatar mx-auto">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <div class="eco-score-badge">
+                        <i class="fas fa-leaf me-2"></i>
+                        Style Score: 85/100
+                    </div>
+                </div>
+                
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="info-card">
+                                <i class="fas fa-user me-3" style="color: var(--fashion-gold);"></i>
+                                <span class="fw-semibold">Sarah Johnson</span>
+                            </div>
+                            <div class="info-card">
+                                <i class="fas fa-envelope me-3" style="color: var(--fashion-gold);"></i>
+                                <span class="fw-semibold">sarah.j@fashionista.com</span>
+                            </div>
+                            <div class="info-card">
+                                <i class="fas fa-phone me-3" style="color: var(--fashion-gold);"></i>
+                                <span class="fw-semibold">+1 (555) 123-STYLE</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="info-card">
+                                <i class="fas fa-calendar me-3" style="color: var(--fashion-gold);"></i>
+                                <span class="fw-semibold">Stylist Since March 2024</span>
+                            </div>
+                            <div class="info-card">
+                                <i class="fas fa-map-marker-alt me-3" style="color: var(--fashion-gold);"></i>
+                                <span class="fw-semibold">San Francisco, CA</span>
+                            </div>
+                            <div class="info-card">
+                                <i class="fas fa-star me-3" style="color: var(--fashion-gold);"></i>
+                                <span class="fw-semibold">4.9 ★ Fashion Icon (47 reviews)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Stats Showcase -->
+        <div class="stats-showcase fade-up stagger-1">
+            <div class="row">
+                <div class="col-md-3 stat-item">
+                    <div class="stat-number">12</div>
+                    <div class="stat-label">
+                        <i class="fas fa-tshirt me-2"></i>
+                        Curated Pieces
+                    </div>
+                </div>
+                <div class="col-md-3 stat-item">
+                    <div class="stat-number">34</div>
+                    <div class="stat-label">
+                        <i class="fas fa-handshake me-2"></i>
+                        Style Matches
+                    </div>
+                </div>
+                <div class="col-md-3 stat-item">
+                    <div class="stat-number">156</div>
+                    <div class="stat-label">
+                        <i class="fas fa-leaf me-2"></i>
+                        lbs CO₂ Saved
+                    </div>
+                </div>
+                <div class="col-md-3 stat-item">
+                    <div class="stat-number">$580</div>
+                    <div class="stat-label">
+                        <i class="fas fa-gem me-2"></i>
+                        Fashion Revenue
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Fashion Collection -->
+        <div class="fade-up stagger-2">
+            <div class="section-header">
+                <h2 class="section-title">My Fashion Collection</h2>
+                <p class="section-subtitle">Curated sustainable style pieces</p>
+            </div>
+            
+            <div class="fashion-grid">
+                <div class="fashion-card add-new">
+                    <div class="card-content">
+                        <i class="fas fa-plus-circle fa-4x mb-3" style="color: var(--fashion-gold);"></i>
+                        <div class="item-title">Add New Piece</div>
+                        <div class="item-details">Curate Your Collection</div>
+                    </div>
+                </div>
+                
+                <div class="fashion-card">
+                    <div class="fashion-badge">Vintage</div>
+                    <div class="card-content">
+                        <div class="item-visual">
+                            <i class="fas fa-tshirt fa-2x" style="color: var(--fashion-sage);"></i>
+                        </div>
+                        <div class="item-title">Vintage Denim Jacket</div>
+                        <div class="item-details">$45 • Size M • Trending</div>
+                    </div>
+                </div>
+                
+                <div class="fashion-card">
+                    <div class="fashion-badge">Designer</div>
+                    <div class="card-content">
+                        <div class="item-visual">
+                            <i class="fas fa-shoe-prints fa-2x" style="color: var(--fashion-sage);"></i>
+                        </div>
+                        <div class="item-title">Nike Air Max 90</div>
+                        <div class="item-details">$85 • Size 9 • Hot Item</div>
+                    </div>
+                </div>
+                
+                <div class="fashion-card">
+                    <div class="fashion-badge">Sustainable</div>
+                    <div class="card-content">
+                        <div class="item-visual">
+                            <i class="fas fa-female fa-2x" style="color: var(--fashion-sage);"></i>
+                        </div>
+                        <div class="item-title">Patagonia Fleece</div>
+                        <div class="item-details">$62 • Size S • Eco-Luxe</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Style Acquisitions -->
+        <div class="fade-up stagger-3">
+            <div class="section-header">
+                <h2 class="section-title">Style Acquisitions</h2>
+                <p class="section-subtitle">Recently added to wardrobe</p>
+            </div>
+            
+            <div class="fashion-grid">
+                <div class="fashion-card">
+                    <div class="card-content">
+                        <div class="item-visual">
+                            <i class="fas fa-dress fa-2x" style="color: var(--fashion-sage);"></i>
+                        </div>
+                        <div class="item-title">Zara Summer Dress</div>
+                        <div class="item-details">$28 • In Wardrobe ✓</div>
+                    </div>
+                </div>
+                
+                <div class="fashion-card">
+                    <div class="card-content">
+                        <div class="item-visual">
+                            <i class="fas fa-hat-cowboy fa-2x" style="color: var(--fashion-sage);"></i>
+                        </div>
+                        <div class="item-title">Vintage Leather Boots</div>
+                        <div class="item-details">$75 • En Route 🚚</div>
+                    </div>
+                </div>
+                
+                <div class="fashion-card">
+                    <div class="card-content">
+                        <div class="item-visual">
+                            <i class="fas fa-user-tie fa-2x" style="color: var(--fashion-sage);"></i>
+                        </div>
+                        <div class="item-title">H&M Power Blazer</div>
+                        <div class="item-details">$35 • In Wardrobe ✓</div>
+                    </div>
+                </div>
+                
+                <div class="fashion-card">
+                    <div class="card-content">
+                        <div class="item-visual">
+                            <i class="fas fa-gem fa-2x" style="color: var(--fashion-sage);"></i>
+                        </div>
+                        <div class="item-title">Vintage Jewelry Set</div>
+                        <div class="item-details">$42 • In Collection ✓</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Fashion Impact Editorial -->
+        <div class="impact-editorial fade-up stagger-4">
+            <h3 class="impact-title">Your Fashion Impact Story</h3>
+            <p class="impact-text">
+                Through ReWear, you've revolutionized sustainable fashion by saving <span class="fashion-highlight">156 lbs of CO₂</span> 
+                and preventing <span class="fashion-highlight">23 beautiful pieces</span> from ending up in landfills. 
+                Your style choices are reshaping the fashion industry, one conscious purchase at a time.
+            </p>
+            <div class="text-center mt-4">
+                <em style="color: var(--fashion-sage);">"Fashion fades, but sustainable style is eternal." - Your Fashion Journey</em>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Enhanced fashion-forward interactions
+            const fashionCards = document.querySelectorAll('.fashion-card');
+            
+            fashionCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-20px) scale(1.03)';
+                    this.style.transition = 'all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+                
+                card.addEventListener('click', function() {
+                    // Fashion runway-style click effect
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = 'translateY(-20px) scale(1.03)';
+                    }, 150);
+                });
+            });
+            
+            // Luxury info card interactions
+            const infoCards = document.querySelectorAll('.info-card');
+            infoCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateX(15px)';
+                    this.style.borderLeftWidth = '6px';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateX(0)';
+                    this.style.borderLeftWidth = '3px';
+                });
+            });
+            
+            // Fashion week-style staggered animations
+            const fadeElements = document.querySelectorAll('.fade-up');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animationPlayState = 'running';
+                    }
+                });
+            });
+            
+            fadeElements.forEach(element => {
+                observer.observe(element);
+            });
+            
+            // Glamorous loading sequence
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+                console.log('💄 ReWear Fashion Dashboard: Runway Ready!');
+            }, 300);
+        });
+    </script>
+</body>
+</html>

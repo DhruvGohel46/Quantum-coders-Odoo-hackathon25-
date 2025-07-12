@@ -4,47 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ReWear - Community Clothing Exchange</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            font-family: 'Arial', sans-serif;
-            line-height: 1.6;
-            color: #333;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
+        .main-container {
+            background: white;
+            min-height: 100vh;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
         }
 
-        /* Header */
-        header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .header {
+            border-bottom: 2px solid #e9ecef;
             padding: 1rem 0;
         }
 
         .logo {
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: bold;
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .logo:hover {
             color: #667eea;
             text-decoration: none;
         }
@@ -53,6 +42,8 @@
             display: flex;
             list-style: none;
             gap: 2rem;
+            margin: 0;
+            padding: 0;
         }
 
         .nav-links a {
@@ -91,6 +82,7 @@
         .btn-primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+            color: white;
         }
 
         .btn-secondary {
@@ -104,249 +96,230 @@
             color: white;
         }
 
-        /* Hero Section */
-        .hero {
-            padding: 4rem 0;
-            text-align: center;
+        .user-profile {
+            width: 45px;
+            height: 45px;
+            background: #667eea;
             color: white;
-        }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            font-weight: 700;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        }
-
-        .hero p {
-            font-size: 1.3rem;
-            margin-bottom: 2rem;
-            opacity: 0.9;
-        }
-
-        .hero-buttons {
+            border-radius: 50%;
             display: flex;
+            align-items: center;
             justify-content: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-            margin-bottom: 3rem;
+            font-weight: bold;
+            font-size: 1.2rem;
         }
 
-        .hero .btn {
-            font-size: 1.1rem;
-            padding: 1rem 2rem;
-        }
-
-        /* Search Bar */
         .search-container {
-            background: white;
-            border-radius: 50px;
-            padding: 0.5rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            display: flex;
-            max-width: 600px;
-            margin: 0 auto 3rem;
+            margin: 2rem 0;
         }
 
         .search-input {
-            flex: 1;
-            border: none;
-            padding: 1rem 1.5rem;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            padding: 12px 16px;
             font-size: 1rem;
-            border-radius: 50px;
-            outline: none;
+        }
+
+        .search-input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.25rem rgba(102, 126, 234, 0.25);
         }
 
         .search-btn {
             background: #667eea;
+            border: 2px solid #667eea;
             color: white;
-            border: none;
-            padding: 1rem 1.5rem;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: background 0.3s;
+            border-radius: 8px;
+            padding: 12px 20px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
         }
 
         .search-btn:hover {
             background: #5a6fd8;
+            border-color: #5a6fd8;
         }
 
-        /* Featured Items Carousel */
-        .featured-section {
-            background: white;
-            padding: 4rem 0;
-            margin-top: 2rem;
-        }
-
-        .featured-section h2 {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-            color: #333;
-        }
-
-        .carousel-container {
-            position: relative;
-            overflow: hidden;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        }
-
-        .carousel {
-            display: flex;
-            transition: transform 0.5s ease;
-        }
-
-        .carousel-item {
-            min-width: 100%;
-            height: 400px;
-            background: linear-gradient(135deg, #ffeaa7, #fab1a0);
+        /* Hero Section */
+        .hero {
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            color: white;
+            gap: 3rem;
+            margin: 3rem 0;
+            padding: 2rem;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .hero-content {
+            flex: 1;
+            text-align: left;
+        }
+
+        .hero-content h1 {
+            font-size: 3rem;
             font-weight: bold;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-            position: relative;
+            color: #333;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        .carousel-item:nth-child(2) {
-            background: linear-gradient(135deg, #74b9ff, #0984e3);
+        .hero-content p {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 2rem;
+            line-height: 1.6;
         }
 
-        .carousel-item:nth-child(3) {
-            background: linear-gradient(135deg, #fd79a8, #e84393);
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
         }
 
-        .carousel-nav {
+        .hero-images {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            max-width: 500px;
+        }
+
+        .hero-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .hero-img:hover {
+            transform: scale(1.05);
+        }
+
+        .hero-img:first-child {
+            grid-column: 1 / -1;
+            height: 250px;
+        }
+
+        .hero-dots {
             position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(255, 255, 255, 0.8);
-            border: none;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
             border-radius: 50%;
-            width: 50px;
-            height: 50px;
+            background: rgba(255,255,255,0.5);
             cursor: pointer;
             transition: background 0.3s;
         }
 
-        .carousel-nav:hover {
-            background: rgba(255, 255, 255, 1);
+        .dot.active {
+            background: white;
         }
 
-        .carousel-nav.prev {
-            left: 20px;
-        }
-
-        .carousel-nav.next {
-            right: 20px;
-        }
-
-        /* Categories Section */
-        .categories-section {
-            padding: 4rem 0;
-            background: #f8f9fa;
-        }
-
-        .categories-section h2 {
+        /* Section Headers */
+        .section-header {
+            font-size: 1.8rem;
+            font-weight: bold;
             text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
             color: #333;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 0.5rem;
+            margin-bottom: 2rem;
         }
 
-        .categories-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-
+        /* Category Cards */
         .category-card {
             background: white;
-            border-radius: 15px;
+            border: 2px solid #dee2e6;
+            border-radius: 12px;
             padding: 2rem;
             text-align: center;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
+            transition: all 0.3s ease;
             cursor: pointer;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .category-card:hover {
+            border-color: #667eea;
             transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
         }
 
         .category-icon {
-            font-size: 3rem;
+            font-size: 2.8rem;
             margin-bottom: 1rem;
         }
 
         .category-card h3 {
-            font-size: 1.3rem;
-            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
             color: #333;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
         }
 
         .category-card p {
-            color: #666;
+            color: #6c757d;
             font-size: 0.9rem;
+            margin-bottom: 0;
         }
 
-        /* Product Listings */
-        .products-section {
-            padding: 4rem 0;
-            background: white;
-        }
-
-        .products-section h2 {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-            color: #333;
-        }
-
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-        }
-
+        /* Product Cards */
         .product-card {
             background: white;
-            border-radius: 15px;
+            border: 2px solid #dee2e6;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            height: 100%;
         }
 
         .product-card:hover {
+            border-color: #667eea;
             transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
         }
 
         .product-image {
             height: 200px;
-            background: linear-gradient(135deg, #ddd, #bbb);
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
-            color: #666;
+            font-size: 1rem;
+            color: #6c757d;
+            font-weight: 500;
         }
 
         .product-info {
-            padding: 1.5rem;
+            padding: 1.25rem;
         }
 
         .product-info h3 {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             margin-bottom: 0.5rem;
             color: #333;
+            font-weight: 600;
         }
 
         .product-info p {
-            color: #666;
+            color: #6c757d;
             font-size: 0.9rem;
             margin-bottom: 1rem;
         }
@@ -361,8 +334,8 @@
         .points {
             background: #667eea;
             color: white;
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
             font-size: 0.8rem;
             font-weight: bold;
         }
@@ -373,322 +346,340 @@
             font-size: 0.8rem;
         }
 
-        /* Footer */
-        footer {
-            background: #333;
+        .btn-product {
+            background: #667eea;
+            border: none;
             color: white;
-            padding: 3rem 0;
-            text-align: center;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            width: 100%;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: background 0.3s;
         }
 
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
+        .btn-product:hover {
+            background: #5a6fd8;
         }
 
-        .footer-section h3 {
-            margin-bottom: 1rem;
-            color: #667eea;
-        }
-
-        .footer-section p, .footer-section a {
-            color: #ccc;
-            text-decoration: none;
-            line-height: 1.8;
-        }
-
-        .footer-section a:hover {
-            color: #667eea;
-        }
-
-        .footer-bottom {
-            border-top: 1px solid #555;
-            padding-top: 2rem;
-            margin-top: 2rem;
-        }
-
-        /* Responsive Design */
+        /* Responsive adjustments */
         @media (max-width: 768px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                gap: 2rem;
+            }
+            
+            .hero-content {
+                text-align: center;
+            }
+            
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-content p {
+                font-size: 1.1rem;
+            }
+            
+            .hero-images {
+                max-width: 100%;
+            }
+            
+            .section-header {
+                font-size: 1.5rem;
+            }
+
             .nav-links {
                 display: none;
             }
+        }
 
-            .hero h1 {
+        @media (max-width: 576px) {
+            .hero-content h2 {
+                font-size: 1.8rem;
+            }
+            
+            .hero-content p {
+                font-size: 1rem;
+            }
+            
+            .category-card {
+                padding: 1.5rem;
+            }
+            
+            .category-icon {
                 font-size: 2.5rem;
-            }
-
-            .hero-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .categories-grid {
-                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
-    <header>
-        <nav class="container">
-            <a href="{{ url_for('main.index') }}" class="logo">ReWear</a>
-            <ul class="nav-links">
-                <li><a href="{{ url_for('main.index') }}">Home</a></li>
-                <li><a href="{{ url_for('main.browse') }}">Browse</a></li>
-                <li><a href="{{ url_for('main.dashboard') }}">Dashboard</a></li>
-                <li><a href="{{ url_for('items.add') }}">Add Item</a></li>
-            </ul>
-                          <div class="auth-buttons">
-                  <a href="{{ url_for('auth.login') }}" class="btn btn-secondary">Login</a>
-                  <a href="{{ url_for('auth.register') }}" class="btn btn-primary">Sign Up</a>
-              </div>
-        </nav>
-    </header>
-
-    <main>
-        <section class="hero" id="home">
-            <div class="container">
-                <h1>Sustainable Fashion Exchange</h1>
-                <p>Give your clothes a second life. Discover unique pieces from your community while reducing textile waste.</p>
-                
-                <div class="hero-buttons">
-                    <a href="{{ url_for('main.browse') }}" class="btn btn-primary">Start Swapping</a>
-                    <a href="{{ url_for('main.browse') }}" class="btn btn-primary">Browse Items</a>
-                    <a href="{{ url_for('items.add') }}" class="btn btn-primary">List an Item</a>
+    <div class="container-fluid main-container">
+        <div class="container">
+            <!-- Header -->
+            <div class="row header align-items-center">
+                <div class="col">
+                    <a href="{{ url_for('main.index') }}" class="logo">ReWear</a>
                 </div>
-
-                <form action="{{ url_for('main.browse') }}" method="GET" class="search-container">
-                    <input type="text" name="search" class="search-input" placeholder="Search for clothing, accessories, or brands...">
-                    <button type="submit" class="search-btn">🔍</button>
-                </form>
-            </div>
-        </section>
-
-        <section class="featured-section">
-            <div class="container">
-                <h2>Featured Items</h2>
-                <div class="carousel-container">
-                    <div class="carousel" id="carousel">
-                        <div class="carousel-item">
-                            <div>
-                                <h3>Vintage Denim Collection</h3>
-                                <p>High-quality vintage jeans and jackets</p>
-                            </div>
-                        </div>
-                        <div class="carousel-item">
-                            <div>
-                                <h3>Designer Accessories</h3>
-                                <p>Bags, shoes, and jewelry from top brands</p>
-                            </div>
-                        </div>
-                        <div class="carousel-item">
-                            <div>
-                                <h3>Formal Wear Exchange</h3>
-                                <p>Suits, dresses, and professional attire</p>
-                            </div>
-                        </div>
-                    </div>
-                    <button class="carousel-nav prev" onclick="prevSlide()">❮</button>
-                    <button class="carousel-nav next" onclick="nextSlide()">❯</button>
+                <div class="col-auto">
+                    <ul class="nav-links">
+                        <li><a href="{{ url_for('main.index') }}">Home</a></li>
+                        <li><a href="{{ url_for('main.item_details') }}">Browse Items</a></li>
+                        {% if current_user.is_authenticated %}
+                            <li><a href="{{ url_for('items.add_item') }}">Add Item</a></li>
+                        {% else %}
+                            <li><a href="{{ url_for('auth.login', next=url_for('items.add_item')) }}">Add Item</a></li>
+                        {% endif %}
+                        <li><a href="{{ url_for('main.about') }}">About</a></li>
+                        {% if current_user.is_authenticated %}
+                            <li><a href="{{ url_for('main.dashboard') }}">Dashboard</a></li>
+                            <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+                        {% else %}
+                            <li><a href="{{ url_for('auth.login') }}">Login</a></li>
+                        {% endif %}
+                    </ul>
                 </div>
             </div>
-        </section>
 
-        <section class="categories-section">
-            <div class="container">
-                <h2>Browse Categories</h2>
-                <div class="categories-grid">
-                    <a href="{{ url_for('main.browse', category='dresses') }}" class="category-card">
+            <!-- Search Bar -->
+            <div class="row search-container">
+                <div class="col">
+                    <form method="GET" action="{{ url_for('main.item_details') }}">
+                        <div class="input-group">
+                            <input type="text" class="form-control search-input" name="search" placeholder="Search for clothing, accessories, or brands..." value="{{ request.args.get('search', '') }}">
+                            <button class="btn search-btn" type="submit">
+                                <i class="bi bi-search"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Hero Section -->
+<section class="hero">
+    <div class="hero-content">
+        <h1>Welcome to ReWear</h1>
+        <p>Join the sustainable fashion revolution. Exchange, discover, and style your wardrobe with our community.</p>
+        <div class="hero-buttons">
+            <a href="{{ url_for('auth.login') }}" class="btn btn-primary">Get Started</a>
+            <a href="{{ url_for('main.about') }}" class="btn btn-secondary">Learn More</a>
+        </div>
+    </div>
+    <div class="hero-images">
+        <img src="{{ url_for('static', filename='images/hero-fashion-1.jpg') }}" alt="Fashion 1" class="hero-img">
+        <img src="{{ url_for('static', filename='images/hero-fashion-2.jpg') }}" alt="Fashion 2" class="hero-img">
+        <img src="{{ url_for('static', filename='images/hero-fashion-3.jpg') }}" alt="Fashion 3" class="hero-img">
+    </div>
+</section>
+
+            <!-- Categories Section -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="section-header">Categories Section</div>
+                </div>
+            </div>
+            <div class="row g-4 mb-5">
+                <div class="col-lg-4 col-md-6">
+                    <div class="category-card" onclick="filterByCategory('clothing')">
                         <div class="category-icon">👗</div>
                         <h3>Dresses</h3>
-                        <p>Casual, formal, and party dresses</p>
-                    </a>
-                    <a href="{{ url_for('main.browse', category='formal') }}" class="category-card">
+                        <p>Casual & formal dresses</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="category-card" onclick="filterByCategory('clothing')">
                         <div class="category-icon">👔</div>
                         <h3>Formal Wear</h3>
-                        <p>Suits, blazers, and professional attire</p>
-                    </a>
-                    <a href="{{ url_for('main.browse', category='footwear') }}" class="category-card">
+                        <p>Suits & professional attire</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="category-card" onclick="filterByCategory('shoes')">
                         <div class="category-icon">👟</div>
                         <h3>Footwear</h3>
-                        <p>Sneakers, boots, and formal shoes</p>
-                    </a>
-                    <a href="{{ url_for('main.browse', category='accessories') }}" class="category-card">
+                        <p>Sneakers, boots & shoes</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="category-card" onclick="filterByCategory('accessories')">
                         <div class="category-icon">👜</div>
                         <h3>Accessories</h3>
-                        <p>Bags, jewelry, and fashion accessories</p>
-                    </a>
-                    <a href="{{ url_for('main.browse', category='outerwear') }}" class="category-card">
+                        <p>Bags, jewelry & more</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="category-card" onclick="filterByCategory('clothing')">
                         <div class="category-icon">🧥</div>
                         <h3>Outerwear</h3>
-                        <p>Jackets, coats, and seasonal wear</p>
-                    </a>
-                    <a href="{{ url_for('main.browse', category='casual') }}" class="category-card">
+                        <p>Jackets & coats</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="category-card" onclick="filterByCategory('clothing')">
                         <div class="category-icon">👕</div>
                         <h3>Casual Wear</h3>
-                        <p>T-shirts, jeans, and everyday clothes</p>
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <section class="products-section">
-            <div class="container">
-                <h2>Recent Listings</h2>
-                <div class="products-grid">
-                    <div class="product-card">
-                        <div class="product-image">Designer Handbag</div>
-                        <div class="product-info">
-                            <h3>Michael Kors Crossbody</h3>
-                            <p>Black leather crossbody bag, barely used. Perfect for daily use.</p>
-                            <div class="product-meta">
-                                <span class="points">150 Points</span>
-                                <span class="condition">Excellent</span>
-                            </div>
-                            <a href="{{ url_for('items.detail', item_id=1) }}" class="btn btn-primary" style="width: 100%;">View Details</a>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <div class="product-image">Vintage Jacket</div>
-                        <div class="product-info">
-                            <h3>Vintage Denim Jacket</h3>
-                            <p>Classic 90s denim jacket, size M. Great for layering.</p>
-                            <div class="product-meta">
-                                <span class="points">120 Points</span>
-                                <span class="condition">Good</span>
-                            </div>
-                            <a href="{{ url_for('items.detail', item_id=2) }}" class="btn btn-primary" style="width: 100%;">View Details</a>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <div class="product-image">Formal Dress</div>
-                        <div class="product-info">
-                            <h3>Black Evening Dress</h3>
-                            <p>Elegant black dress, size 8. Perfect for formal events.</p>
-                            <div class="product-meta">
-                                <span class="points">200 Points</span>
-                                <span class="condition">Like New</span>
-                            </div>
-                            <a href="{{ url_for('items.detail', item_id=3) }}" class="btn btn-primary" style="width: 100%;">View Details</a>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <div class="product-image">Sneakers</div>
-                        <div class="product-info">
-                            <h3>Nike Air Max</h3>
-                            <p>White Nike Air Max sneakers, size 9. Worn a few times.</p>
-                            <div class="product-meta">
-                                <span class="points">180 Points</span>
-                                <span class="condition">Very Good</span>
-                            </div>
-                            <a href="{{ url_for('items.detail', item_id=4) }}" class="btn btn-primary" style="width: 100%;">View Details</a>
-                        </div>
+                        <p>T-shirts & everyday clothes</p>
                     </div>
                 </div>
             </div>
-        </section>
-    </main>
 
-    <footer>
-        <div class="container">
-                            <div class="footer-content">
-                    <div class="footer-section">
-                        <h3>ReWear</h3>
-                        <p>Connecting fashion-conscious individuals to create a sustainable clothing exchange community.</p>
-                    </div>
-                    <div class="footer-section">
-                        <h3>Quick Links</h3>
-                        <p><a href="{{ url_for('main.dashboard') }}">Dashboard</a></p>
-                        <p><a href="{{ url_for('main.browse') }}">Browse Items</a></p>
-                        <p><a href="{{ url_for('items.add') }}">List an Item</a></p>
-                        <p><a href="{{ url_for('auth.login') }}">Login</a></p>
-                    </div>
-                                    <div class="footer-section">
-                        <h3>Support</h3>
-                        <p><a href="{{ url_for('auth.register') }}">Register</a></p>
-                        <p><a href="{{ url_for('auth.login') }}">Login</a></p>
-                        <p><a href="{{ url_for('main.dashboard') }}">Dashboard</a></p>
-                        <p><a href="{{ url_for('items.add') }}">Add Item</a></p>
-                    </div>
-                                    <div class="footer-section">
-                        <h3>Connect</h3>
-                        <p><a href="{{ url_for('main.browse') }}">Browse Items</a></p>
-                        <p><a href="{{ url_for('items.add') }}">Add Item</a></p>
-                        <p><a href="{{ url_for('main.dashboard') }}">Dashboard</a></p>
-                        <p><a href="{{ url_for('auth.register') }}">Join Us</a></p>
-                    </div>
+            <!-- Product Listings -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="section-header">Featured Items</div>
+                </div>
             </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 ReWear. All rights reserved. | Privacy Policy | Terms of Service</p>
+            <div class="row g-4 mb-5">
+                {% if featured_items %}
+                    {% for item in featured_items %}
+                    <!-- eslint-disable-next-line -->
+                    <div class="col-xl-3 col-lg-4 col-md-6">
+                        <div class="product-card" data-item-id="{{ item.id }}" onclick="viewItem(this.dataset.itemId)">
+                            <div class="product-image">
+                                {% if item.image_filename %}
+                                    <img src="{{ url_for('static', filename='uploads/' + item.image_filename) }}" alt="{{ item.title }}" style="width: 100%; height: 100%; object-fit: cover;">
+                                {% else %}
+                                    <i class="bi bi-{{ get_category_icon(item.category) }}" style="font-size: 3rem; color: #667eea;"></i>
+                                {% endif %}
+                            </div>
+                            <div class="product-info">
+                                <h3>{{ item.title or 'Untitled Item' }}</h3>
+                                <p>{{ (item.description or '')[:100] }}{% if (item.description or '')|length > 100 %}...{% endif %}</p>
+                                <div class="product-meta">
+                                    <span class="points">{{ item.points_value or 0 }} Points</span>
+                                    <span class="condition">{{ item.condition.replace('_', ' ').title() if item.condition else 'N/A' }}</span>
+                                </div>
+                                <button class="btn btn-product">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <!-- Sample items when no featured items are available -->
+                    <div class="col-xl-3 col-lg-4 col-md-6">
+                        <div class="product-card">
+                            <div class="product-image">
+                                <i class="bi bi-handbag" style="font-size: 3rem; color: #667eea;"></i>
+                            </div>
+                            <div class="product-info">
+                                <h3>Michael Kors Bag</h3>
+                                <p>Black crossbody bag, excellent condition</p>
+                                <div class="product-meta">
+                                    <span class="points">150 Points</span>
+                                    <span class="condition">Excellent</span>
+                                </div>
+                                <button class="btn btn-product">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-4 col-md-6">
+                        <div class="product-card">
+                            <div class="product-image">
+                                <i class="bi bi-vest" style="font-size: 3rem; color: #667eea;"></i>
+                            </div>
+                            <div class="product-info">
+                                <h3>Vintage Denim</h3>
+                                <p>Classic 90s denim jacket, size M</p>
+                                <div class="product-meta">
+                                    <span class="points">120 Points</span>
+                                    <span class="condition">Good</span>
+                                </div>
+                                <button class="btn btn-product">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-4 col-md-6">
+                        <div class="product-card">
+                            <div class="product-image">
+                                <i class="bi bi-gem" style="font-size: 3rem; color: #667eea;"></i>
+                            </div>
+                            <div class="product-info">
+                                <h3>Evening Dress</h3>
+                                <p>Black elegant dress, size 8</p>
+                                <div class="product-meta">
+                                    <span class="points">200 Points</span>
+                                    <span class="condition">Like New</span>
+                                </div>
+                                <button class="btn btn-product">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-4 col-md-6">
+                        <div class="product-card">
+                            <div class="product-image">
+                                <i class="bi bi-shoe-sole" style="font-size: 3rem; color: #667eea;"></i>
+                            </div>
+                            <div class="product-info">
+                                <h3>Nike Air Max</h3>
+                                <p>White sneakers, size 9</p>
+                                <div class="product-meta">
+                                    <span class="points">180 Points</span>
+                                    <span class="condition">Very Good</span>
+                                </div>
+                                <button class="btn btn-product">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
             </div>
         </div>
-    </footer>
+    </div>
 
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script>
-        let currentSlide = 0;
-        const slides = document.querySelectorAll('.carousel-item');
-        const totalSlides = slides.length;
-
+        let slideIndex = 1;
+        
+        function currentSlide(n) {
+            showSlide(slideIndex = n);
+        }
+        
         function showSlide(n) {
-            const carousel = document.getElementById('carousel');
-            if (n >= totalSlides) currentSlide = 0;
-            if (n < 0) currentSlide = totalSlides - 1;
-            carousel.style.transform = `translateX(-${currentSlide * 100}%)`;
+            let slides = document.getElementsByClassName("hero-slide");
+            let dots = document.getElementsByClassName("dot");
+            
+            if (n > slides.length) {slideIndex = 1}
+            if (n < 1) {slideIndex = slides.length}
+            
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].classList.remove("active");
+            }
+            
+            for (let i = 0; i < dots.length; i++) {
+                dots[i].classList.remove("active");
+            }
+            
+            slides[slideIndex-1].classList.add("active");
+            dots[slideIndex-1].classList.add("active");
         }
-
-        function nextSlide() {
-            currentSlide++;
-            showSlide(currentSlide);
-        }
-
-        function prevSlide() {
-            currentSlide--;
-            showSlide(currentSlide);
-        }
-
-        // Auto-advance carousel
-        setInterval(nextSlide, 5000);
-
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const href = this.getAttribute('href');
-                if (href && href !== '#') {
-                    const target = document.querySelector(href);
-                    if (target) {
-                        target.scrollIntoView({
-                            behavior: 'smooth'
-                        });
-                    }
-                }
-            });
-        });
-
-        // Add animation on scroll
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -100px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
-
-        // Observe all cards and sections
+        
+        // Auto-advance slides
+        setInterval(function() {
+            slideIndex++;
+            if (slideIndex > 3) slideIndex = 1;
+            showSlide(slideIndex);
+        }, 4000);
+        
+        // Add click animations to cards
         document.querySelectorAll('.category-card, .product-card').forEach(card => {
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(20px)';
-            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-            observer.observe(card);
+            card.addEventListener('click', function() {
+                this.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = 'translateY(-5px)';
+                }, 100);
+            });
         });
+
+        function filterByCategory(category) {
+            window.location.href = "{{ url_for('main.item_details') }}?category=" + category;
+        }
+
+        function viewItem(itemId) {
+            if (itemId) {
+                window.location.href = "/items/" + itemId;
+            }
+        }
     </script>
 </body>
 </html>
