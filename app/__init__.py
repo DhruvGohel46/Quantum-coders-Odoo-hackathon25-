@@ -20,8 +20,8 @@ def create_app():
     mail.init_app(app)
     migrate.init_app(app, db)
     
-    login_manager.login_view = 'auth.login'
-    login_manager.login_message = 'Please log in to access this page.'
+    login_manager.login_view = 'auth.login'  # type: ignore
+    login_manager.login_message = 'Please log in to access this page.'  # type: ignore
     
     from app.routes.auth_routes import auth
     from app.routes.main_routes import main

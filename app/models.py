@@ -48,7 +48,7 @@ class Item(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     
     # Relationships
-    swap_requests = db.relationship('SwapRequest', backref='item', lazy=True)
+    swap_requests = db.relationship('SwapRequest', foreign_keys='SwapRequest.item_id', backref='item', lazy=True)
 
 class SwapRequest(db.Model):
     id = db.Column(db.Integer, primary_key=True)

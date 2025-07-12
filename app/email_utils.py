@@ -14,7 +14,7 @@ def send_email(subject, sender, recipients, text_body, html_body=None):
     if html_body:
         msg.html = html_body
     
-    thread = threading.Thread(target=send_async_email, args=(current_app._get_current_object(), msg))
+    thread = threading.Thread(target=send_async_email, args=(current_app, msg))
     thread.start()
 
 def send_swap_request_email(user, item, requester):
